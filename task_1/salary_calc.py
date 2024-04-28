@@ -8,7 +8,7 @@ def total_salary(path: str) -> Tuple[float, float]:
 
     Args:
         path (str): Absolute or relative path to file with salaries
-        where each lime foramtted as "<name>, <salary>".
+        where each lime foramtted as "<name>,<salary>".
 
     Returns:
         Tuple[float, float]: Returns tuple of total and average salary.
