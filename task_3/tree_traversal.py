@@ -24,6 +24,6 @@ def display_tree(file_path: str | Path, indent: int = 0) -> None:
         display_tree(dir, indent+1)
 
     for file in files:
-        print(f"{"  " * indent}{colorama.Fore.LIGHTYELLOW_EX}  {file.name}{colorama.Style.RESET_ALL}")
+        print(f"{"  " * (indent + 1)}{colorama.Fore.LIGHTYELLOW_EX}{file.name}{colorama.Style.RESET_ALL}")
 
     colorama.deinit()
