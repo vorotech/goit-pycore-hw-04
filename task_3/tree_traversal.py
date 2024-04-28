@@ -20,10 +20,10 @@ def display_tree(file_path: str | Path, indent: int = 0) -> None:
     dirs = sorted([item for item in path.iterdir() if item.is_dir()])
     files = sorted([item for item in path.iterdir() if item.is_file()])
 
-    for dir in dirs:
-        display_tree(dir, indent+1)
+    for d in dirs:
+        display_tree(d, indent+1)
 
-    for file in files:
-        print(f"{"  " * (indent + 1)}{colorama.Fore.LIGHTYELLOW_EX}{file.name}{colorama.Style.RESET_ALL}")
+    for f in files:
+        print(f"{"  " * (indent + 1)}{colorama.Fore.LIGHTYELLOW_EX}{f.name}{colorama.Style.RESET_ALL}")
 
     colorama.deinit()
