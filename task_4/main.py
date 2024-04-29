@@ -2,14 +2,21 @@
 
 import handler
 
-from handler import PhoneBookError
+from handler import ContactError
+
+def parse_input(user_input: str) -> tuple:
+    """Parses user input and returns command and arguments."""
+    cmd, *args = user_input.split()
+    cmd = cmd.strip().lower()
+    return cmd, *args
 
 def main():
     """Main function."""
     print("Welcome to the assistant bot!")
 
     while True:
-        command = input("Enter a command: ").strip().lower()
+        user_input = input("Enter a command: ")
+        command, *args = parse_input(user_input)
 
         if command == "hello":
             print("How can I help you?")
@@ -18,12 +25,12 @@ def main():
             contacts = handler.get_all_contacts()
             print(contacts)
 
-        elif command.startswith("add"):
+        elif command == "add":
             try:
-                _, name, phone = command.split()
+                name, phone = args
                 handler.add_contact(name, phone)
-            except PhoneBookError as e:
-                print(f"Error: {e}")
+            except ContactError as e:
+                print(e)
                 continue
             except ValueError:
                 print("Invalid command. Usage: add [ім'я] [номер телефону]")
@@ -31,12 +38,12 @@ def main():
 
             print("Contact added.")
 
-        elif command.startswith("change"):
+        elif command == "change":
             try:
-                _, name, phone = command.split()
+                name, phone = args
                 handler.change_contact(name, phone)
-            except PhoneBookError as e:
-                print(f"Error: {e}")
+            except ContactError as e:
+                print(e)
                 continue
             except ValueError:
                 print("Invalid command. Usage: change [ім'я] [новий номер телефону]")
@@ -44,19 +51,19 @@ def main():
 
             print("Contact updated.")
 
-        elif command.startswith("phone"):
+        elif command == "phone":
             try:
-                _, name = command.split()
+                name = args[0]
                 phone = handler.get_phone(name)
                 print(phone)
-            except PhoneBookError as e:
-                print(f"Error: {e}")
+            except ContactError as e:
+                print(e)
                 continue
-            except ValueError:
+            except (ValueError, IndexError):
                 print("Invalid command. Usage: phone [ім'я]")
                 continue
 
-        elif command in ("exit", "close"):
+        elif command in ["exit", "close"]:
             print("Goodbye!")
             break
 

@@ -3,38 +3,38 @@
 import re
 
 # Phonebook where key is name and value is phone number
-phonebook = {}
+contacts = {}
 
-class PhoneBookError(Exception):
-    """Custom exception for phonebook errors."""
+class ContactError(Exception):
+    """Custom exception for contact errors."""
     def __init__(self, message: str):
         self.message = message
         super().__init__(self.message)
 
 def add_contact(name: str, phone: str) -> None:
     """Adds a contact to the phonebook."""
-    if name in phonebook:
-        raise PhoneBookError("Contact already exists.")
+    if name in contacts:
+        raise ContactError("Contact already exists.")
 
-    phonebook[name] = _normalize_phone(phone)
+    contacts[name] = _normalize_phone(phone)
 
 def change_contact(name: str, phone: str) -> None:
     """Change a contact."""
-    if name not in phonebook:
-        raise PhoneBookError("No such contact.")
+    if name not in contacts:
+        raise ContactError("No such contact.")
 
-    phonebook[name] = _normalize_phone(phone)
+    contacts[name] = _normalize_phone(phone)
 
 def get_phone(name: str) -> str:
     """Gets a phone number."""
-    if name not in phonebook:
-        raise PhoneBookError("No such contact.")
+    if name not in contacts:
+        raise ContactError("No such contact.")
 
-    return phonebook[name]
+    return contacts[name]
 
 def get_all_contacts() -> dict:
     """Gets all contacts."""
-    return phonebook
+    return contacts
 
 
 def _normalize_phone(phone_number: str, country_code = "38") -> str:
@@ -57,6 +57,6 @@ def _normalize_phone(phone_number: str, country_code = "38") -> str:
         phone_number = re.sub(fr"^({country_code})?", f"+{country_code}", phone_number)
 
     if len(phone_number) != 13:
-        raise PhoneBookError("Invalid phone number.")
+        raise ContactError("Invalid phone number.")
 
     return phone_number
