@@ -20,8 +20,11 @@ def display_tree(file_path: str | Path, indent: int = 0) -> None:
 
     print(f"{"  " * indent}{colorama.Fore.LIGHTBLUE_EX}{path.name}/{colorama.Style.RESET_ALL}")
 
-    dirs = sorted([item for item in path.iterdir() if item.is_dir()])
-    files = sorted([item for item in path.iterdir() if item.is_file()])
+    # Ignore any python dirs or files similar to .gitignore
+    ignore = [".git", "__pycache__", ".vscode", ".idea", ".gitignore", "venv", ".venv", ".egg-info"]
+
+    dirs = sorted([item for item in path.iterdir() if item.is_dir() and item.name not in ignore])
+    files = sorted([item for item in path.iterdir() if item.is_file() and item.name not in ignore])
 
     for d in dirs:
         display_tree(d, indent+1)
